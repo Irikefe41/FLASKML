@@ -1,11 +1,11 @@
-from partsML import get_prediction
+from partsML import get_prediction, split_class_name
 from flask import Flask, render_template, request, redirect
 
 
 
 app = Flask(__name__)
 
-@app.route('/predict', methods=['POST'])
+@app.route('/', methods=['GET','POST'])
 def fileUpload():
     if request.method == 'POST':
         if 'file' not in request.files:
@@ -15,7 +15,10 @@ def fileUpload():
             return
         image_bytes = file.read()
         class_id, class_name = get_prediction(image_bytes=image_bytes)
-    return jsonify({'class_id': class_id, 'class_name': class_name})
+        class_name = split_class_name(class_name)
+        return render_template('result.html', class_id=class_id,
+                                class_name=class_name )
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run()
