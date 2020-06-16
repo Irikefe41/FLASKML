@@ -5,6 +5,8 @@ import json
 import io
 
 imagenet_class_index = json.load(open('./static/imagenet_class_index.json'))
+# all_model = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101','resnet152']
+
 model = models.densenet121(pretrained=True)
 model.eval()
 
